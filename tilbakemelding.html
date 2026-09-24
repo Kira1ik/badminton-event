@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tilbakemelding — Badminton Break</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;0,900;1,900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="nav">
+  <a class="logo" href="index.html"><span class="logo-mark">🏸</span><span>BADMINTON<br><b>BREAK</b></span></a>
+  <nav>
+    <a href="index.html">HJEM</a>
+    <a href="index.html#event">OM EVENTET</a>
+    <a href="index.html#rules">REGLER</a>
+    <a href="index.html#faq">FAQ</a>
+    <a class="nav-cta" href="regestrasjon.html">MELD DEG PÅ</a>
+  </nav>
+</header>
+
+<main class="form-page">
+  <section class="form-card">
+    <p class="eyebrow">BADMINTON BREAK</p>
+    <h1>TILBAKEMELDING</h1>
+    <p class="form-intro">Hjelp oss å bli bedre! Del din mening om eventet.</p>
+
+    <form id="feedbackForm" action="https://formspree.io/f/xaeypdnv" method="POST">
+      <input type="hidden" name="_subject" value="Badminton Break — Tilbakemelding">
+
+      <label for="name">Navn (valgfritt):</label>
+      <input type="text" id="name" name="name" placeholder="Ditt navn">
+
+      <label for="rating">Hvor gøy var selve eventet?</label>
+      <select id="rating" name="rating">
+        <option value="5">5 - Kjempegøy!</option>
+        <option value="4">4 - Veldig bra</option>
+        <option value="3">3 - Helt ok</option>
+        <option value="2">2 - Kjedelig</option>
+        <option value="1">1 - Dårlig</option>
+      </select>
+
+      <label for="organization">Hvordan syns du organiseringen fungerte?</label>
+      <select id="organization" name="organization">
+        <option value="topp">Topp - Alt fløt knirkefritt</option>
+        <option value="ok">Ok - Helt greit organisert</option>
+        <option value="darlig">Dårlig - Rotete og uoversiktlig</option>
+      </select>
+
+      <label for="waiting">Syntes du det var mye ventetid mellom kampene?</label>
+      <select id="waiting" name="waiting">
+        <option value="nei">Nei, det gikk radig unna</option>
+        <option value="litt">Litt mye venting</option>
+        <option value="mye">Ja, alt for mye venting</option>
+      </select>
+
+      <label for="comment">Forslag eller andre kommentarer:</label>
+      <textarea id="comment" name="comment" placeholder="Skriv hva du tenker..."></textarea>
+
+      <button type="submit">SEND INN SVAR</button>
+    </form>
+
+    <div id="thankYouContainer" class="thank-you-message hidden" aria-live="polite">
+      <h2>TAKK FOR SVARET! 🏸</h2>
+      <p>Vi setter stor pris på din tilbakemelding.</p>
+      <a class="secondary-button" href="index.html">← Tilbake til hovedsiden</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="logo"><span class="logo-mark">🏸</span><span>BADMINTON<br><b>BREAK</b></span></div>
+  <span>Hamar katedralskole | 16. september | 11:25–12:25</span>
+  <a class="lime" href="regestrasjon.html">PÅMELDING</a>
+</footer>
+
+<script>
+  const form = document.getElementById("feedbackForm");
+  const thankYouContainer = document.getElementById("thankYouContainer");
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const button = form.querySelector("button");
+    button.disabled = true;
+    button.textContent = "SENDER...";
+
+    try {
+      const response = await fetch(form.action, {
+        method: "POST",
+        body: new FormData(form),
+        headers: { Accept: "application/json" }
+      });
+
+      if (!response.ok) throw new Error("Submission failed");
+      form.classList.add("hidden");
+      thankYouContainer.classList.remove("hidden");
+    } catch {
+      alert("Noe gikk galt. Prøv igjen senere.");
+      button.disabled = false;
+      button.textContent = "SEND INN SVAR";
+    }
+  });
+</script>
+</body>
+</html>
